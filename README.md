@@ -1,3 +1,12 @@
+# Scanm.art App
+
+### Task list in chronological order
+1. Research existing solutions
+2. Find the appropriate & available name
+3. Buy the domain
+4. Start a project in Netlify & connect the domain
+5. Create a logo
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
