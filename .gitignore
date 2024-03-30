@@ -25,3 +25,5 @@ yarn-error.log*
 .idea
 
 *storybook.log
+/src/assets/scss/custom.css
+/src/assets/scss/custom.css.map
