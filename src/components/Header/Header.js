@@ -34,12 +34,14 @@ const Header = () => {
                 'col-12 d-flex align-items-center justify-content-between'
               }
             >
-              <img
-                src={logo}
-                alt={'scanm.art Logo'}
-                className={'img-fluid p-2'}
-                style={{ maxHeight: 55 }}
-              />
+              <a href={'/'}>
+                <img
+                  src={logo}
+                  alt={'scanm.art Logo'}
+                  className={'img-fluid p-2'}
+                  style={{ maxHeight: 55 }}
+                />
+              </a>
               {basketID && (
                 <div
                   style={{ position: 'relative' }}
