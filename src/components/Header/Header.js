@@ -2,6 +2,7 @@ import logo from '../../assets/img/logo.png';
 import bag from '../../assets/img/bag.svg';
 import { useBasketContext } from '../../context/BasketContext';
 import PropTypes from 'prop-types';
+import { useOffcanvasContext } from '../../context/OffcanvasContext';
 
 const Badge = ({ amount }) => {
   return (
@@ -20,7 +21,8 @@ Badge.propTypes = {
 };
 
 const Header = () => {
-  const { items } = useBasketContext();
+  const { items, basketID } = useBasketContext();
+  const { toggleOffcanvas } = useOffcanvasContext();
 
   return (
     <div className={'row'}>
@@ -38,10 +40,15 @@ const Header = () => {
                 className={'img-fluid p-2'}
                 style={{ maxHeight: 55 }}
               />
-              <div style={{ position: 'relative' }}>
-                {items && items.length > 0 && <Badge amount={items.length} />}
-                <img src={bag} alt={'Basket'} width={'32'} height={'32'} />
-              </div>
+              {basketID && (
+                <div
+                  style={{ position: 'relative' }}
+                  onClick={() => toggleOffcanvas()}
+                >
+                  {items && items.length > 0 && <Badge amount={items.length} />}
+                  <img src={bag} alt={'Basket'} width={'32'} height={'32'} />
+                </div>
+              )}
             </div>
           </div>
         </div>
