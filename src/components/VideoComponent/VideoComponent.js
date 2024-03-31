@@ -18,7 +18,7 @@ const VideoComponent = ({ scannerRef, scanning, handleDetected }) => {
           }}
           ref={scannerRef}
           className={
-            'border border-5 border-warning bg-lighter-gray d-flex align-items-center justify-content-center'
+            'border border-5 border-warning bg-light d-flex align-items-center justify-content-center'
           }
         >
           {!scanning && (

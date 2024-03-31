@@ -6,21 +6,25 @@ import { BasketContextProvider } from './context/BasketContext';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Main from './views/Main/Main';
 import Start from './views/Start/Start';
+import { OffcanvasProvider } from './context/OffcanvasContext';
+import OffcanvasComponent from './components/Offcanvas/Offcanvas';
 
 const App = () => {
   return (
     <BasketContextProvider>
-      <Routes>
-        <Route path={'/'} element={<Layout />}>
-          <Route index element={<Start />} />
-          <Route path={'/scan'} element={<Main />} />
+      <OffcanvasProvider>
+        <Routes>
+          <Route path={'/'} element={<Layout />}>
+            <Route index element={<Start />} />
+            <Route path={'/scan'} element={<Main />} />
 
-          {/* Using path="*"" means "match anything", so this route
+            {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
-          {/*<Route path="*" element={<NoMatch />} />*/}
-        </Route>
-      </Routes>
+            {/*<Route path="*" element={<NoMatch />} />*/}
+          </Route>
+        </Routes>
+      </OffcanvasProvider>
     </BasketContextProvider>
   );
 };
@@ -43,6 +47,7 @@ const Layout = () => {
           pauseOnHover
           theme={'light'}
         />
+        <OffcanvasComponent />
         <Outlet />
       </div>
     </div>
