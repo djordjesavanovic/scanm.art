@@ -54,8 +54,6 @@ const Main = () => {
       await Quagga.CameraAccess.release();
       const detectedCameras = await Quagga.CameraAccess.enumerateVideoDevices();
       setCameras(detectedCameras);
-      // Ensure torch is off on component load
-      await Quagga.CameraAccess.disableTorch();
     } catch (err) {
       toast(`Error accessing camera: ${err.message}`);
       setCameraError(`Error accessing camera: ${err.message}`);

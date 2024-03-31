@@ -1,9 +1,12 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { ref, set } from 'firebase/database';
+import { db } from '../firebase';
 
 const BasketContext = createContext(null);
 
 export const BasketContextProvider = ({ children }) => {
   const [items, setItems] = useState([]);
+  const [basketID, setBasketID] = useState('');
 
   const saveItem = ({ code, itemName }) => {
     const item = {
@@ -14,13 +17,17 @@ export const BasketContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const saveBasket = async () => {
+      await set(ref(db, `/baskets/${basketID}`), items);
+    };
+
     if (items.length > 0) {
-      console.log('ITEMS: ', items);
+      saveBasket();
     }
-  }, [items]);
+  }, [basketID, items]);
 
   return (
-    <BasketContext.Provider value={{ items, saveItem }}>
+    <BasketContext.Provider value={{ items, saveItem, setBasketID }}>
       {children}
     </BasketContext.Provider>
   );

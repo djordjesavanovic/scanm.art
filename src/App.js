@@ -5,14 +5,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BasketContextProvider } from './context/BasketContext';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Main from './views/Main/Main';
+import Start from './views/Start/Start';
 
 const App = () => {
   return (
     <BasketContextProvider>
       <Routes>
         <Route path={'/'} element={<Layout />}>
-          <Route index element={<Main />} />
-          {/*<Route path="about" element={<About />} />*/}
+          <Route index element={<Start />} />
+          <Route path={'/scan'} element={<Main />} />
 
           {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
