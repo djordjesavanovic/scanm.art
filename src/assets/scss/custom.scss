@@ -99,3 +99,15 @@
 .border-warning {
   border-color: $color-sunset-orange !important;
 }
+
+#interactive.viewport canvas,
+video {
+  max-height: 350px;
+  width: 100% !important;
+  padding: 0;
+  margin: 0;
+}
+
+.drawingBuffer {
+  display: none;
+}

@@ -1,27 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Header from './components/Header/Header';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { BasketContextProvider } from './context/BasketContext';
+import { Routes, Route, Outlet } from 'react-router-dom';
+import Main from './views/Main/Main';
 
-function App() {
-	return (
-		<div className="container-fluid bg-primary">
-			<div className="row">
-				<div className={'d-flex flex-column col-12 align-items-center justify-content-center vh-100'}>
-					<img src={logo} className="App-logo" alt="logo"/>
-					<p>
-						Edit <code>src/App.js</code> and save to reload.
-					</p>
-					<a
-						className="App-link"
-						href="https://reactjs.org"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Learn React
-					</a>
-				</div>
-			</div>
-		</div>
-	);
-}
+const App = () => {
+  return (
+    <BasketContextProvider>
+      <Routes>
+        <Route path={'/'} element={<Layout />}>
+          <Route index element={<Main />} />
+          {/*<Route path="about" element={<About />} />*/}
+
+          {/* Using path="*"" means "match anything", so this route
+                acts like a catch-all for URLs that we don't have explicit
+                routes for. */}
+          {/*<Route path="*" element={<NoMatch />} />*/}
+        </Route>
+      </Routes>
+    </BasketContextProvider>
+  );
+};
+
+const Layout = () => {
+  return (
+    <div className={'container-fluid bg-light vh-100 d-flex flex-column'}>
+      <Header />
+      <div className={'container'}>
+        {/* An <Outlet> renders whatever child route is currently active,
+          so you can think about this <Outlet> as a placeholder for
+          the child routes we defined above. */}
+        <ToastContainer
+          position={'bottom-center'}
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnFocusLoss
+          draggable={false}
+          pauseOnHover
+          theme={'light'}
+        />
+        <Outlet />
+      </div>
+    </div>
+  );
+};
 
 export default App;
