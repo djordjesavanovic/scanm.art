@@ -1,6 +1,7 @@
 import barcode from '../../assets/img/barcode.svg';
 import BarcodeScanner from '../BarcodeScanner/BarcodeScanner';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const VideoComponent = ({ scannerRef, scanning, handleDetected }) => {
   return (
@@ -35,4 +36,12 @@ const VideoComponent = ({ scannerRef, scanning, handleDetected }) => {
   );
 };
 
+VideoComponent.propTypes = {
+  scannerRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]).isRequired,
+  scanning: PropTypes.bool.isRequired,
+  handleDetected: PropTypes.func.isRequired,
+};
 export default VideoComponent;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useBasketContext } from '../../context/BasketContext';
 import barcode from '../../assets/img/barcode.svg';
 import box from '../../assets/img/box.svg';
+import PropTypes from 'prop-types';
 
 const ItemModal = ({ code, closeModal }) => {
   const [itemName, setItemName] = useState('');
@@ -80,7 +81,6 @@ const ItemModal = ({ code, closeModal }) => {
                     className={'form-control'}
                     id={'itemName'}
                     name={'itemName'}
-                    autoFocus
                     value={itemName}
                     onChange={handleItemName}
                   />
@@ -108,6 +108,11 @@ const ItemModal = ({ code, closeModal }) => {
       </div>
     </div>
   );
+};
+
+ItemModal.propTypes = {
+  code: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default ItemModal;

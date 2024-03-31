@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Controls = ({ cameras, cameraError, handleScanning, scanning }) => {
   return (
@@ -25,6 +26,13 @@ const Controls = ({ cameras, cameraError, handleScanning, scanning }) => {
       </div>
     </div>
   );
+};
+
+Controls.propTypes = {
+  cameras: PropTypes.array.isRequired,
+  cameraError: PropTypes.string,
+  handleScanning: PropTypes.func.isRequired,
+  scanning: PropTypes.bool.isRequired,
 };
 
 export default Controls;

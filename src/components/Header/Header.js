@@ -1,6 +1,7 @@
 import logo from '../../assets/img/logo.png';
 import bag from '../../assets/img/bag.svg';
 import { useBasketContext } from '../../context/BasketContext';
+import PropTypes from 'prop-types';
 
 const Badge = ({ amount }) => {
   return (
@@ -12,6 +13,10 @@ const Badge = ({ amount }) => {
       {amount}
     </span>
   );
+};
+
+Badge.propTypes = {
+  amount: PropTypes.number.isRequired,
 };
 
 const Header = () => {
