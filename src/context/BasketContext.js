@@ -16,6 +16,7 @@ export const BasketContextProvider = ({ children }) => {
     setItems((prevItems) => [...prevItems, item]);
   };
 
+  // Save the basket in the database everytime the local basket changes
   useEffect(() => {
     const saveBasket = async () => {
       await set(ref(db, `/baskets/${basketID}`), items);

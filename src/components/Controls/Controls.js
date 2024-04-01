@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Defining the Controls component with props for managing camera and scanning state.
 const Controls = ({ cameras, cameraError, handleScanning, scanning }) => {
   return (
-    <div className={'row'}>
+    <div className={'row pt-3'}>
       <div
         className={
-          'col-12 d-flex flex-column align-items-center justify-content-center pt-3'
+          'col-12 d-flex flex-column align-items-center justify-content-center'
         }
       >
         {cameras.length === 0 && !cameraError && (

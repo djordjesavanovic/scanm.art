@@ -4,20 +4,24 @@ import barcode from '../../assets/img/barcode.svg';
 import box from '../../assets/img/box.svg';
 import PropTypes from 'prop-types';
 
+// Modal component for a scanned item
 const ItemModal = ({ code, closeModal }) => {
   const [itemName, setItemName] = useState('');
   const { saveItem } = useBasketContext();
 
+  // Handler for item name input changes.
   const handleItemName = (e) => {
     setItemName(e.target.value);
   };
 
+  // Handler for saving the item to the basket and closing the modal.
   const handleSaveItem = () => {
     saveItem({ code, itemName });
     closeModal();
     setItemName('');
   };
 
+  // Handler for closing the modal without saving the item.
   const handleCloseModal = () => {
     setItemName('');
     closeModal();

@@ -2,11 +2,10 @@ import React, { createContext, useContext, useState } from 'react';
 
 const OffcanvasContext = createContext(null);
 
-export const OffcanvasProvider = ({ children }) => {
+export const OffcanvasContextProvider = ({ children }) => {
   const [show, setShow] = useState(false);
 
   const toggleOffcanvas = () => {
-    console.log('triggered');
     setShow(!show);
   };
 
