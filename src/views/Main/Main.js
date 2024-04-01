@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Quagga from '@ericblade/quagga2';
 import { toast } from 'react-toastify';
 import ItemModal from '../../components/ItemModal/ItemModal';
@@ -16,62 +16,90 @@ const Main = () => {
   const scannerRef = useRef(null);
   const { items } = useBasketContext();
 
-  const openModal = () => {
+  // Function to open the modal.
+  const openModal = useCallback(() => {
+    // Bootstrap modal setup and display.
     const modalElement = document.getElementById('staticBackdrop');
     const bsModal = new Modal(modalElement, {
       backdrop: 'static',
       keyboard: false,
     });
     bsModal.show();
-  };
+  }, []);
 
-  const closeModal = () => {
+  // Function to close the modal and reset scanned code.
+  const closeModal = useCallback(() => {
+    // Close the Bootstrap modal and reset the code state.
     const modalElement = document.getElementById('staticBackdrop');
     const bsModal = Modal.getInstance(modalElement);
     if (bsModal) {
       bsModal.hide();
     }
     setCode('');
-  };
+  }, []);
 
-  const handleDetected = (result) => {
-    const itemsContainResult = items.some((item) => item.code === result);
+  // Function to handle the detected barcode.
+  const handleDetected = useCallback(
+    (result) => {
+      // Check if the detected item is already in the basket, if not, show it in the modal.
+      const itemsContainResult = items.some((item) => item.code === result);
 
-    if (itemsContainResult) {
-      return;
-    }
+      if (itemsContainResult) {
+        return;
+      }
 
-    setCode(result);
-    setScanning(false);
-    removeVideoElement();
-    openModal();
-  };
+      setCode(result);
+      setScanning(false);
+      removeVideoElement();
+      openModal();
+    },
+    [items, openModal]
+  );
 
-  const initializeCamera = async () => {
+  // Callback function to initialize camera access and handle permissions.
+  const initializeCamera = useCallback(async () => {
+    // Request camera access, check for permissions, and update state accordingly.
     try {
-      // Trigger permission prompt and enumerate cameras afterwards
+      // Trigger permission prompt to access the camera
       await Quagga.CameraAccess.request(null, {});
+      // Immediately release the camera as we only want to check permission
       await Quagga.CameraAccess.release();
+
+      // Enumerate video devices to check if camera access was granted
       const detectedCameras = await Quagga.CameraAccess.enumerateVideoDevices();
+
+      if (detectedCameras.length === 0) {
+        // Assuming no cameras detected means permission was denied
+        throw new Error('Camera access denied by user.');
+      }
+
+      // If cameras are detected, update state accordingly
       setCameras(detectedCameras);
     } catch (err) {
+      // Handle errors including denied camera access here
       toast(`Error accessing camera: ${err.message}`);
       setCameraError(`Error accessing camera: ${err.message}`);
+      throw err;
     }
-  };
+  }, []);
 
-  const handleScanning = () => {
+  // Function to handle the scanning process based on current state and camera availability.
+  const handleScanning = useCallback(() => {
     if (scanning) {
       setScanning(false);
       removeVideoElement();
     } else if (cameras.length === 0) {
-      initializeCamera().then(() => {
-        setScanning(true);
-      });
+      // Attempt to initialize the camera
+      initializeCamera()
+        .then(() => {
+          setScanning(true);
+        })
+        .catch(() => {});
     } else if (cameras.length > 0 && !scanning) {
+      // If cameras are already initialized and scanning is not active, start scanning.
       setScanning(true);
     }
-  };
+  }, [cameras.length, initializeCamera, scanning]);
 
   return (
     <>

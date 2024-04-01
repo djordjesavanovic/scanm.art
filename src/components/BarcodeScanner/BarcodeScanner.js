@@ -2,7 +2,7 @@ import { useCallback, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import Quagga from '@ericblade/quagga2';
 
-// Utility function to calculate the median of an array
+// A utility function to calculate the median of an array. Useful for filtering out decoding errors.
 const getMedian = (arr) => {
   const sortedArr = [...arr].sort((a, b) => a - b);
   const midIndex = Math.floor(sortedArr.length / 2);
@@ -11,11 +11,11 @@ const getMedian = (arr) => {
     : (sortedArr[midIndex - 1] + sortedArr[midIndex]) / 2;
 };
 
-// Utility function to get the median of code errors from decoded codes
+// Function to calculate the median of code errors from decoded barcode results.
 const getMedianOfCodeErrors = (decodedCodes) =>
   getMedian(decodedCodes.flatMap((x) => x.error || []));
 
-// Default configuration settings
+// Default configuration for the Quagga library
 const defaultConfig = {
   constraints: {
     facingMode: 'environment',
@@ -24,24 +24,28 @@ const defaultConfig = {
   decoders: ['ean_reader'],
 };
 
+// The main component that sets up and manages the barcode scanner.
 const BarcodeScanner = ({ onDetected, scannerRef }) => {
-  // Error checking callback
+  // Callback function that processes detected barcodes.
   const handleDetected = useCallback(
     (result) => {
-      if (!onDetected) return;
+      if (!onDetected) return; // Do nothing if no callback is provided.
+      // Calculate the median error of decoded barcodes to filter out poor scans.
       const medianError = getMedianOfCodeErrors(result.codeResult.decodedCodes);
       if (medianError < 0.25) onDetected(result.codeResult.code); // Accept code if error < 0.25
     },
     [onDetected]
   );
 
+  // Hook to initialize and clean up the barcode scanner.
   useLayoutEffect(() => {
-    let ignoreInit = false;
+    let ignoreInit = false; // Flag to ignore initialization if component is quickly unmounted.
 
     const initQuagga = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 1)); // Delay to check for unmount
-      if (ignoreInit) return;
+      await new Promise((resolve) => setTimeout(resolve, 1)); // Short delay to mitigate quick mount/unmount scenarios.
+      if (ignoreInit) return; // Prevent initialization if component is unmounted.
 
+      // Initialize Quagga with configuration and start the barcode scanning process.
       Quagga.init(
         {
           inputStream: {
@@ -64,17 +68,17 @@ const BarcodeScanner = ({ onDetected, scannerRef }) => {
       );
     };
 
-    initQuagga();
+    initQuagga(); // Initialize the scanner on component mount.
 
     return () => {
-      // Cleanup
+      // Cleanup function to stop scanning and remove event listeners.
       ignoreInit = true;
       Quagga.stop();
       Quagga.offDetected(handleDetected);
     };
   }, [handleDetected, scannerRef]);
 
-  return null; // This component doesn't render anything itself
+  return null; // This component doesn't render any visual content.
 };
 
 BarcodeScanner.propTypes = {

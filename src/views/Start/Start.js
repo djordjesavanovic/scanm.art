@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom';
 const Start = () => {
   const { setBasketID } = useBasketContext();
   const navigate = useNavigate();
+
+  // Handler for the 'Start the app' button click event.
   const handleStart = () => {
-    const uid = uuidv4();
-    setBasketID(uid);
-    navigate('/scan');
+    const uid = uuidv4(); // Generating a unique identifier for the new basket session.
+    setBasketID(uid); // Setting the basket ID in the context to this new UUID.
+    navigate('/scan'); // Navigating to the '/scan' route where the main functionality likely resides.
   };
 
   return (

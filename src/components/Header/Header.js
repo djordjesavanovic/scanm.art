@@ -4,6 +4,7 @@ import { useBasketContext } from '../../context/BasketContext';
 import PropTypes from 'prop-types';
 import { useOffcanvasContext } from '../../context/OffcanvasContext';
 
+// Badge component to display the number of items in the basket.
 const Badge = ({ amount }) => {
   return (
     <span
@@ -20,10 +21,10 @@ Badge.propTypes = {
   amount: PropTypes.number.isRequired,
 };
 
+// Main Header component definition.
 const Header = () => {
   const { items, basketID } = useBasketContext();
   const { toggleOffcanvas } = useOffcanvasContext();
-
   return (
     <div className={'row'}>
       <div className={'col-12 bg-white'}>

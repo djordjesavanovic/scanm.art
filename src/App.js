@@ -6,29 +6,26 @@ import { BasketContextProvider } from './context/BasketContext';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Main from './views/Main/Main';
 import Start from './views/Start/Start';
-import { OffcanvasProvider } from './context/OffcanvasContext';
-import OffcanvasComponent from './components/Offcanvas/Offcanvas';
+import { OffcanvasContextProvider } from './context/OffcanvasContext';
+import OffcanvasComponent from './components/Offcanvas/OffcanvasComponent';
 
+// The App component that wraps the whole application.
 const App = () => {
   return (
     <BasketContextProvider>
-      <OffcanvasProvider>
+      <OffcanvasContextProvider>
         <Routes>
           <Route path={'/'} element={<Layout />}>
             <Route index element={<Start />} />
             <Route path={'/scan'} element={<Main />} />
-
-            {/* Using path="*"" means "match anything", so this route
-                acts like a catch-all for URLs that we don't have explicit
-                routes for. */}
-            {/*<Route path="*" element={<NoMatch />} />*/}
           </Route>
         </Routes>
-      </OffcanvasProvider>
+      </OffcanvasContextProvider>
     </BasketContextProvider>
   );
 };
 
+// Layout component that structures the application's layout.
 const Layout = () => {
   return (
     <div className={'container-fluid bg-light vh-100 d-flex flex-column'}>

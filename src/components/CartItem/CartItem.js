@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Component for presenting scanned items in the cart
 const CartItem = ({ code, itemName }) => {
   return (
     <div className="card mb-2">
