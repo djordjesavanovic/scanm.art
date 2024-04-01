@@ -17,6 +17,7 @@ Netlify start the build & deployment process everytime there is a change, i.e. a
 Firebase config (app ID, app URL, etc.) is stored as environment variables.
 
 To run the app locally, please scroll down the follow the instructions provided by CRA.
+In order to get the camera to work locally, add an .env file in the project's root and insert this value in it ``HTTPS=true``. Rebuild the app and it should work. 
 
 ### Task list in chronological order
 1. Research existing solutions 
